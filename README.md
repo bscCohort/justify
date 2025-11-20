@@ -10,16 +10,8 @@ pip freeze > requirements.txt
 ```
 
 
-### Get Supabase JWT Token for a user 
+### Run the server
 
-Use Hoppscotch to log in
-POST - https://<PROJECT_ID>.supabase.co/auth/v1/token?grant_type=password
-Headers
-    Key             Value
-    apikey          YOUR_SUPABASE_ANON_KEY
-    Content-Type    application/json
-Body
-    {
-    "email": "admin@admin.com",
-    "password": "admin"
-    }
+```
+uvicorn app.main:app --reload
+```
