@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from app.db import get_db
 from app.models.case import Case
 from app.routers import cases
+from app.auth import get_current_user
 
 app = FastAPI(title="JustiFy API")
 
@@ -33,3 +34,7 @@ def health_check():
 def db_check(db: Session = Depends(get_db)):
     count = db.query(Case).count()
     return {"status": "ok", "cases_count": count}
+
+@app.get("/api/v1/auth/me")
+def auth_me(user=Depends(get_current_user)):
+    return {"user": user}

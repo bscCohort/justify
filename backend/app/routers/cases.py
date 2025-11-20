@@ -1,96 +1,120 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from fastapi.encoders import jsonable_encoder
 
 from app.db import get_db
-from app.auth import verify_api_key
+from app.auth import get_current_user
 from app.models.case import Case
 from app.models.schemas import CaseCreate, CaseUpdate, CaseOut
 
-
-# -----------------------------------------------------------
-# Helper response wrappers
-# -----------------------------------------------------------
-def success(data=None, message="ok"):
-    return {
-        "success": True,
-        "message": message,
-        "data": jsonable_encoder(data)
-    }
-
-
-def error(message="error", status_code=400):
-    raise HTTPException(status_code=status_code, detail=message)
-
-
-# -----------------------------------------------------------
-# Router
-# -----------------------------------------------------------
 router = APIRouter(
     prefix="/cases",
     tags=["Cases"],
-    dependencies=[Depends(verify_api_key)]
 )
 
+# -----------------------------------------
+# CREATE CASE
+# -----------------------------------------
+@router.post("/", response_model=CaseOut)
+def create_case(
+    data: CaseCreate,
+    db: Session = Depends(get_db),
+    user=Depends(get_current_user)
+):
+    user_id = user["user_id"]
 
-# -----------------------------------------------------------
-# Create Case
-# -----------------------------------------------------------
-@router.post("/", response_model=dict)
-def create_case(data: CaseCreate, db: Session = Depends(get_db)):
-    new = Case(**data.model_dump())
+    new = Case(
+        user_id=user_id,
+        title=data.title,
+        description=data.description
+    )
+
     db.add(new)
     db.commit()
     db.refresh(new)
-    return success(new, "Case created")
+    return new
 
 
-# -----------------------------------------------------------
-# List Cases
-# -----------------------------------------------------------
-@router.get("/", response_model=dict)
-def list_cases(db: Session = Depends(get_db)):
-    items = db.query(Case).all()
-    return success(items)
+# -----------------------------------------
+# LIST CASES
+# -----------------------------------------
+@router.get("/", response_model=list[CaseOut])
+def list_cases(
+    db: Session = Depends(get_db),
+    user=Depends(get_current_user)
+):
+    user_id = user["user_id"]
+    return db.query(Case).filter(Case.user_id == user_id).all()
 
 
-# -----------------------------------------------------------
-# Get Case by ID
-# -----------------------------------------------------------
-@router.get("/{case_id}", response_model=dict)
-def get_case(case_id: int, db: Session = Depends(get_db)):
-    case = db.query(Case).filter(Case.id == case_id).first()
+# -----------------------------------------
+# GET SINGLE CASE
+# -----------------------------------------
+@router.get("/{case_id}", response_model=CaseOut)
+def get_case(
+    case_id: int,
+    db: Session = Depends(get_db),
+    user=Depends(get_current_user)
+):
+    user_id = user["user_id"]
+    case = db.query(Case).filter(
+        Case.id == case_id,
+        Case.user_id == user_id
+    ).first()
+
     if not case:
-        return error("Case not found", 404)
-    return success(case)
+        raise HTTPException(404, "Case not found")
+
+    return case
 
 
-# -----------------------------------------------------------
-# Update Case
-# -----------------------------------------------------------
-@router.put("/{case_id}", response_model=dict)
-def update_case(case_id: int, data: CaseUpdate, db: Session = Depends(get_db)):
-    case = db.query(Case).filter(Case.id == case_id).first()
+# -----------------------------------------
+# UPDATE CASE
+# -----------------------------------------
+@router.put("/{case_id}", response_model=CaseOut)
+def update_case(
+    case_id: int,
+    data: CaseUpdate,
+    db: Session = Depends(get_db),
+    user=Depends(get_current_user)
+):
+    user_id = user["user_id"]
+
+    case = db.query(Case).filter(
+        Case.id == case_id,
+        Case.user_id == user_id
+    ).first()
+
     if not case:
-        return error("Case not found", 404)
+        raise HTTPException(404, "Case not found")
 
-    for key, value in data.model_dump(exclude_unset=True).items():
+    for key, value in data.dict(exclude_unset=True).items():
         setattr(case, key, value)
 
     db.commit()
     db.refresh(case)
-    return success(case, "Case updated")
+    return case
 
 
-# -----------------------------------------------------------
-# Delete Case
-# -----------------------------------------------------------
-@router.delete("/{case_id}", response_model=dict)
-def delete_case(case_id: int, db: Session = Depends(get_db)):
-    case = db.query(Case).filter(Case.id == case_id).first()
+# -----------------------------------------
+# DELETE CASE
+# -----------------------------------------
+@router.delete("/{case_id}")
+def delete_case(
+    case_id: int,
+    db: Session = Depends(get_db),
+    user=Depends(get_current_user)
+):
+    user_id = user["user_id"]
+
+    case = db.query(Case).filter(
+        Case.id == case_id,
+        Case.user_id == user_id
+    ).first()
+
     if not case:
-        return error("Case not found", 404)
+        raise HTTPException(404, "Case not found")
 
     db.delete(case)
     db.commit()
-    return success(message="Case deleted")
+
+    return {"deleted": True}

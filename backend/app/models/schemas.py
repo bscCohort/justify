@@ -1,12 +1,10 @@
 from pydantic import BaseModel
 from typing import Optional
 
-
 # -----------------------------------------------------------
-# Base schema shared by create & update
+# Base schema shared by create & update (NO user_id here!)
 # -----------------------------------------------------------
 class CaseBase(BaseModel):
-    user_id: str
     title: str
     description: str
     predicted_category: Optional[str] = None
@@ -16,6 +14,7 @@ class CaseBase(BaseModel):
 
 # -----------------------------------------------------------
 # Create schema - all required except optional fields
+# user_id removed (backend supplies it from JWT)
 # -----------------------------------------------------------
 class CaseCreate(CaseBase):
     pass
@@ -33,12 +32,13 @@ class CaseUpdate(BaseModel):
 
 
 # -----------------------------------------------------------
-# Output schema - includes ID
+# Output schema - includes ID + user_id
+# user_id IS allowed in output but NOT in input
 # -----------------------------------------------------------
 class CaseOut(CaseBase):
     id: int
+    user_id: str   # only visible in responses
 
-    # Required in Pydantic v2 instead of orm_mode=True
     model_config = {
         "from_attributes": True
     }
