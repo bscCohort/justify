@@ -4,33 +4,32 @@ from sqlalchemy.orm import Session
 
 from app.db import get_db
 from app.models.case import Case
-from app.routers import example  # existing import
+from app.routers import cases
 
 app = FastAPI(title="JustiFy API")
 
+API_PREFIX = "/api/v1"
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # we'll tighten later
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-app.include_router(example.router)
-
+# Register router ONLY ONCE
+app.include_router(cases.router, prefix=API_PREFIX)
 
 @app.get("/")
 def root():
     return {"message": "Welcome to the JustiFy API"}
 
-
 @app.get("/health")
 def health_check():
     return {"status": "ok", "service": "justify-api"}
 
-
 @app.get("/db-check")
 def db_check(db: Session = Depends(get_db)):
-    # Try a simple query: count rows in cases
     count = db.query(Case).count()
     return {"status": "ok", "cases_count": count}
