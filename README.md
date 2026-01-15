@@ -1,11 +1,22 @@
 # justify
 
 ```shell
+# Create the venv
 python3 -m venv .venv
+
+# Activate the venv
 source .venv/bin/activate
+
+# Upgrade pip to latest if required
 python -m pip install --upgrade pip
-# pip install fastapi uvicorn sqlalchemy psycopg2-binary python-dotenv python-jose requests
+
+# Install necessary modules
 pip install flask joblib scikit-learn python-dotenv psycopg[binary]
+
+# Fix interpreter issues if shows up
+# For any linting errors by the IDE, choose an different interpreter option from the Fix menu and provide the current venv as an interpreter
+
+# Freeze all the libraries with all their versions
 pip freeze > requirements.txt
 ```
 
@@ -16,6 +27,61 @@ pip freeze > requirements.txt
 uvicorn app.main:app --reload
 ```
 
+### Setup Database Credentials
+
+- Collect the Supabase DB Creds from transaction pooler configurations
+![alt text](image.png)
+![alt text](image-2.png)
+![alt text](image-1.png)
+- Copy and paste all the credentials in the .env file, add this file in the .gitignore
+- Make a copy of that file, give it a name .env.example, modify the credential values to dummy values, this file is fine to push to remote branch.
+
+### Setup The API
+
+- Test the ML model via API endpoint
+```shell
+curl -s -X POST http://127.0.0.1:5000/predict \
+  -H "Content-Type: application/json" \
+  -d '{"text":"Portugal crash out of FIFA World Cup, Ronaldo in tears"}'
+```
+
+- Test POST request
+```shell
+curl -s -X POST http://127.0.0.1:5000/cases \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "World Cup update",
+    "case_text": "Portugal crash out of FIFA World Cup, Ronaldo in tears"
+  }'
+```
+
+- Test Read All Objects
+```shell
+curl -s http://127.0.0.1:5000/cases
+```
+- Test One Object
+```shell
+curl -s http://127.0.0.1:5000/cases/1
+```
+
+- Update One Object
+
+```shell
+curl -s -X POST http://127.0.0.1:5000/cases \
+  -H "Content-Type: application/json" \
+  -d '{"title":"Test","case_text":"Apple launches new AI chip for laptops"}'
+```
+
+```shell
+curl -s -X PUT http://127.0.0.1:5000/cases/2 \
+  -H "Content-Type: application/json" \
+  -d '{"status":"reviewing","notes":"Needs more details from client"}'
+```
+
+- Delete One Object
+```shell
+curl -s -X DELETE http://127.0.0.1:5000/cases/1
+```
 
 ### Setup NextJS Project
 
@@ -79,5 +145,25 @@ added 10 packages, and audited 374 packages in 5s
   run `npm fund` for details
 
 found 0 vulnerabilities
-(.venv) @bscCohort ➜ /workspaces/justify/frontend (main) $ 
+
+
+(.venv) @bscCohort ➜ /workspaces/justify/frontend (main) $ npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+
+added 3 packages, and audited 377 packages in 1s
+
+147 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+(.venv) @bscCohort ➜ /workspaces/justify/frontend (main) $ npm i react-hot-toast
+
+added 2 packages, and audited 379 packages in 3s
+
+147 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
 ```

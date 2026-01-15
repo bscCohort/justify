@@ -4,3 +4,5 @@ backend/**/__pycache__/
 ml/bbc
 ml/nltk_data
 ml/bbc-fulltext.zip
+__pycache__/
+*.pyc
