@@ -1,32 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
-
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE || "http://127.0.0.1:5000";
+import CaseListItem from "@/components/CaseListItem";
+import { useCases } from "@/hooks/useCases";
 
 export default function CasesListPage() {
-  const [cases, setCases] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  async function load() {
-    setLoading(true);
-    const res = await fetch(`${API_BASE}/cases`);
-    const data = await res.json();
-
-    if (!res.ok) {
-      toast.error(data?.error || "Failed to load cases");
-      setLoading(false);
-      return;
-    }
-
-    setCases(data);
-    setLoading(false);
-  }
-
-  useEffect(() => {
-    load();
-  }, []);
+  const { cases, loading } = useCases();
 
   return (
     <main className="max-w-3xl mx-auto p-6 space-y-6 text-gray-100">
@@ -52,30 +30,7 @@ export default function CasesListPage() {
         ) : (
           <div className="space-y-3">
             {cases.map((c) => (
-              <a
-                key={c.id}
-                href={`/cases/${c.id}`}
-                className="block border border-gray-800 bg-gray-900 rounded p-4 hover:border-blue-600 transition"
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <div className="text-lg font-semibold text-gray-100">
-                      {c.title}
-                    </div>
-                    <div className="mt-1 text-sm text-gray-400">
-                      category:{" "}
-                      <span className="text-gray-200">{c.predicted_category}</span>
-                      {" • "}
-                      status:{" "}
-                      <span className="text-gray-200">{c.status}</span>
-                    </div>
-                  </div>
-
-                  <div className="text-sm text-blue-400 shrink-0">
-                    Open →
-                  </div>
-                </div>
-              </a>
+              <CaseListItem key={c.id} item={c} />
             ))}
           </div>
         )}

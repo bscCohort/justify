@@ -10,8 +10,11 @@ source .venv/bin/activate
 # Upgrade pip to latest if required
 python -m pip install --upgrade pip
 
+# Install necessary modules from requiremetns file
+python -m pip install -r requirements.txt
+
 # Install necessary modules
-pip install flask joblib scikit-learn python-dotenv psycopg[binary]
+pip install flask joblib scikit-learn python-dotenv psycopg[binary] flask_cors
 
 # Fix interpreter issues if shows up
 # For any linting errors by the IDE, choose an different interpreter option from the Fix menu and provide the current venv as an interpreter
@@ -166,4 +169,22 @@ added 2 packages, and audited 379 packages in 3s
 
 found 0 vulnerabilities
 
+```
+
+- The data flow for frontend goes like this
+```shell
+routes (pages) → hooks (logic) → api (data access) → components (UI)
+```
+
+- To Run The Dev Server Of UI
+```
+npm run dev
+```
+- To Run The Prod Server Of UI
+```
+npm run start
+```
+- To Run The Servers In Phoenix Admin
+```
+NEXT_PUBLIC_ASSET_PREFIX=/proxy/3002 npm run dev -- -p 3002
 ```

@@ -1,5 +1,6 @@
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
+import { withBasePath } from "@/lib/routes";
 
 export default function RootLayout({
   children,
@@ -23,19 +24,19 @@ export default function RootLayout({
 
             <nav className="flex gap-5 text-sm">
               <a
-                href="/"
+                href={withBasePath("/")}
                 className="text-gray-300 hover:text-white"
               >
                 Home
               </a>
               <a
-                href="/new"
+                href={withBasePath("/new")}
                 className="text-gray-300 hover:text-white"
               >
                 New Case
               </a>
               <a
-                href="/cases"
+                href={withBasePath("/cases")}
                 className="text-gray-300 hover:text-white"
               >
                 All Cases

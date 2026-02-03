@@ -1,5 +1,9 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## UI Architecture Notes
+
+See `frontend/UI_ARCHITECTURE.md` for a detailed, step-by-step explanation of how UI components, hooks, and API calls flow into the backend.
+
 ## Getting Started
 
 First, run the development server:
