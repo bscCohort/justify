@@ -2,6 +2,12 @@ import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import { withBasePath } from "@/lib/routes";
 
+export const metadata = {
+  icons: {
+    icon: "https://raw.githubusercontent.com/KEINOS/blank_favicon_ico/main/src/bin/favicon.ico",
+  },
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -17,7 +23,7 @@ export default function RootLayout({
         <header className="border-b border-gray-800">
           <div className="max-w-4xl mx-auto px-6 py-4 flex justify-between items-center">
             <h1 className="text-lg font-semibold">
-              <a href="/" className="hover:text-white">
+              <a href={withBasePath("/")} className="hover:text-white">
                 JustiFy
               </a>
             </h1>
