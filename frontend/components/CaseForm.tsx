@@ -1,3 +1,4 @@
+// Props for the main case submission form.
 type CaseFormProps = {
   title: string;
   caseText: string;
@@ -9,6 +10,7 @@ type CaseFormProps = {
   canSave: boolean;
 };
 
+// Controlled form: parent owns the state, this component renders inputs/buttons.
 export default function CaseForm({
   title,
   caseText,
@@ -26,6 +28,7 @@ export default function CaseForm({
         <input
           className="w-full border border-gray-700 rounded p-2 bg-gray-800 text-gray-100 placeholder-gray-400"
           value={title}
+          // Bubble the new value up to the parent state.
           onChange={(e) => onTitleChange(e.target.value)}
           placeholder="e.g. Contract dispute about payment"
         />
@@ -36,6 +39,7 @@ export default function CaseForm({
         <textarea
           className="w-full border border-gray-700 rounded p-2 min-h-[160px] bg-gray-800 text-gray-100 placeholder-gray-400"
           value={caseText}
+          // Bubble the new value up to the parent state.
           onChange={(e) => onCaseTextChange(e.target.value)}
           placeholder="Paste the case description here..."
         />
@@ -45,6 +49,7 @@ export default function CaseForm({
         <button
           className="bg-gray-100 text-black rounded px-4 py-2 disabled:opacity-50"
           onClick={onPredict}
+          // Block until the form is valid enough to predict.
           disabled={!canPredict}
         >
           Predict Category
@@ -53,6 +58,7 @@ export default function CaseForm({
         <button
           className="bg-blue-600 hover:bg-blue-700 text-white rounded px-4 py-2 disabled:opacity-50"
           onClick={onSave}
+          // Block until we have the required info to save.
           disabled={!canSave}
         >
           Save Case

@@ -5,13 +5,17 @@ import { deleteCase, getCase, updateCase } from "@/lib/api";
 import { Case, CaseStatus } from "@/types/case";
 import { withBasePath } from "@/lib/routes";
 
+// Hook files are `.ts` because they contain logic only (no JSX rendering).
+// This hook handles view/edit/delete for a single case.
 export function useCase(id: string | undefined) {
+  // Local state for the case details + UI status.
   const [data, setData] = useState<Case | null>(null);
   const [status, setStatus] = useState<CaseStatus>("new");
   const [notes, setNotes] = useState("");
   const [msg, setMsg] = useState("");
   const [loading, setLoading] = useState(true);
 
+  // Fetch a single case from the API.
   const load = async () => {
     if (!id) {
       setLoading(false);
@@ -35,6 +39,7 @@ export function useCase(id: string | undefined) {
     }
   };
 
+  // Save status/notes back to the API.
   const save = async () => {
     if (!id) return;
     setMsg("");
@@ -50,6 +55,7 @@ export function useCase(id: string | undefined) {
     }
   };
 
+  // Delete the case, then redirect to the list page.
   const remove = async () => {
     if (!id) return;
     setMsg("");
@@ -64,10 +70,12 @@ export function useCase(id: string | undefined) {
     }
   };
 
+  // Load case data whenever the id changes.
   useEffect(() => {
     load();
   }, [id]);
 
+  // Expose state + actions to the UI.
   return {
     data,
     status,

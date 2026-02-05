@@ -1,19 +1,23 @@
 import { LEGAL_LABEL } from "@/lib/constants";
 import { withBasePath } from "@/lib/routes";
 
+// Props for showing the ML prediction results.
 type CasePreviewProps = {
   pred: string | null;
   scores: Record<string, number> | null;
   savedId?: number | null;
 };
 
+// Shows the predicted category, confidence list, and link to saved case.
 export default function CasePreview({
   pred,
   scores,
   savedId,
 }: CasePreviewProps) {
+  // Convert raw label to a friendly display name.
   const displayCategory = pred ? LEGAL_LABEL[pred] || pred : null;
 
+  // If nothing predicted yet, render nothing.
   if (!displayCategory) {
     return null;
   }
@@ -33,6 +37,7 @@ export default function CasePreview({
             Confidence
           </p>
           <ul className="text-sm space-y-1">
+            {/* Sort by highest confidence first */}
             {Object.entries(scores)
               .sort((a, b) => b[1] - a[1])
               .map(([k, v]) => (

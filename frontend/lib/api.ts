@@ -1,6 +1,7 @@
 import { API_BASE } from "@/lib/constants";
 import { Case, CaseStatus, PredictionResult } from "@/types/case";
 
+// Safely parse JSON responses (handles empty bodies and non-JSON text).
 async function readJson(res: Response) {
   const text = await res.text();
   try {
@@ -10,6 +11,7 @@ async function readJson(res: Response) {
   }
 }
 
+// Small fetch wrapper: builds the URL, parses JSON, and throws on non-OK.
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, options);
   const data = await readJson(res);
@@ -25,6 +27,7 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
   return data as T;
 }
 
+// Ask the ML service to predict a legal category for the text.
 export function predictCategory(text: string): Promise<PredictionResult> {
   return request<PredictionResult>("/predict", {
     method: "POST",
@@ -33,6 +36,7 @@ export function predictCategory(text: string): Promise<PredictionResult> {
   });
 }
 
+// Create a new case record in the backend.
 export function createCase(payload: {
   title: string;
   case_text: string;
@@ -44,14 +48,17 @@ export function createCase(payload: {
   });
 }
 
+// Fetch all cases for the list view.
 export function getCases(): Promise<Case[]> {
   return request<Case[]>("/cases");
 }
 
+// Fetch a single case by id.
 export function getCase(id: string): Promise<Case> {
   return request<Case>(`/cases/${id}`);
 }
 
+// Update the case status/notes.
 export function updateCase(
   id: string,
   payload: { status: CaseStatus; notes: string }
@@ -63,6 +70,7 @@ export function updateCase(
   });
 }
 
+// Delete a case by id.
 export async function deleteCase(id: string): Promise<void> {
   await request<void>(`/cases/${id}`, { method: "DELETE" });
 }

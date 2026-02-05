@@ -5,10 +5,14 @@ import toast from "react-hot-toast";
 import { getCases } from "@/lib/api";
 import { Case } from "@/types/case";
 
+// Hook files are `.ts` because they contain logic only (no JSX rendering).
+// This hook loads the list of cases for the cases page.
 export function useCases() {
+  // Local state for list data + loading UI.
   const [cases, setCases] = useState<Case[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // Fetch all cases from the API.
   const load = async () => {
     setLoading(true);
     try {
@@ -23,9 +27,11 @@ export function useCases() {
     }
   };
 
+  // Load once on first render.
   useEffect(() => {
     load();
   }, []);
 
+  // Expose list data and a reload helper.
   return { cases, loading, reload: load };
 }

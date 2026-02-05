@@ -1,5 +1,6 @@
 import { CaseStatus } from "@/types/case";
 
+// Props for the reviewer status/notes form.
 type CaseStatusFormProps = {
   status: CaseStatus;
   notes: string;
@@ -9,6 +10,7 @@ type CaseStatusFormProps = {
   onDelete: () => void;
 };
 
+// Form for reviewers to update status/notes on a case.
 export default function CaseStatusForm({
   status,
   notes,
@@ -26,6 +28,7 @@ export default function CaseStatusForm({
         <select
           className="border border-gray-700 rounded p-2 bg-gray-800 text-gray-100"
           value={status}
+          // Convert string from the select into our CaseStatus union.
           onChange={(e) => onStatusChange(e.target.value as CaseStatus)}
         >
           <option value="new">new</option>

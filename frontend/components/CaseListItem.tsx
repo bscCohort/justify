@@ -1,10 +1,12 @@
 import { Case } from "@/types/case";
 import { withBasePath } from "@/lib/routes";
 
+// Props for a single item in the cases list.
 type CaseListItemProps = {
   item: Case;
 };
 
+// Clickable list row that links to the case detail page.
 export default function CaseListItem({ item }: CaseListItemProps) {
   return (
     <a
