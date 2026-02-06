@@ -26,7 +26,7 @@ export default function CasePreview({
   return (
     <section className="border border-gray-800 bg-gray-900 rounded p-4 space-y-3">
       <div>
-        <p className="text-sm text-gray-400">Suggested category</p>
+        <p className="text-sm text-gray-400">Suggested A Lawyer</p>
         <p className="text-xl font-semibold text-gray-100">
           {displayCategory}
         </p>
