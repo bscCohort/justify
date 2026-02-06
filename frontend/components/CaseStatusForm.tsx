@@ -1,3 +1,4 @@
+// Major concept to learn here: form state via props, union types, and update callbacks.
 import { CaseStatus } from "@/types/case";
 
 // Props for the reviewer status/notes form.

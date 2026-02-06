@@ -1,5 +1,6 @@
 "use client";
 
+// Major concept to learn here: custom hook for CRUD on a single resource and state syncing.
 import { useEffect, useState } from "react";
 import { deleteCase, getCase, updateCase } from "@/lib/api";
 import { Case, CaseStatus } from "@/types/case";

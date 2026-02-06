@@ -1,5 +1,6 @@
 "use client";
 
+// Major concept to learn here: list pages, data loading via hooks, and empty/loading states.
 import CaseListItem from "@/components/CaseListItem";
 import { useCases } from "@/hooks/useCases";
 

@@ -1,3 +1,4 @@
+// Major concept to learn here: derived UI state, conditional rendering, and mapping data to display.
 import { LEGAL_LABEL } from "@/lib/constants";
 import { withBasePath } from "@/lib/routes";
 

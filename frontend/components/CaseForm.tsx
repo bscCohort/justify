@@ -1,3 +1,4 @@
+// Major concept to learn here: controlled form inputs, props for state lifting, and button gating.
 // Props for the main case submission form.
 type CaseFormProps = {
   title: string;

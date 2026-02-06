@@ -1,5 +1,6 @@
 "use client";
 
+// Major concept to learn here: custom hooks for data loading, side effects, and UI state.
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { getCases } from "@/lib/api";

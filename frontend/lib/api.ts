@@ -1,3 +1,4 @@
+// Major concept to learn here: data-access layer, typed responses, and centralized error handling.
 import { API_BASE } from "@/lib/constants";
 import { Case, CaseStatus, PredictionResult } from "@/types/case";
 

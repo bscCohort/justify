@@ -1,5 +1,6 @@
 "use client";
 
+// Major concept to learn here: client component state, form flow, and async actions.
 import { useState } from "react";
 import toast from "react-hot-toast";
 import CaseForm from "@/components/CaseForm";

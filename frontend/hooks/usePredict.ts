@@ -1,5 +1,6 @@
 "use client";
 
+// Major concept to learn here: encapsulating async actions + derived UI state in a custom hook.
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { predictCategory } from "@/lib/api";

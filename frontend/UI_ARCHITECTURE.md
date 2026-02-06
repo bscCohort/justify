@@ -25,6 +25,22 @@ This document explains how data flows from the UI to the backend and back, using
 3. `frontend/app/cases/page.tsx`: list cases (GET from backend).
 4. `frontend/app/cases/[id]/page.tsx`: read/update/delete (GET/PUT/DELETE).
 
+**Recommended teaching flow (7 steps)**
+1. `frontend/app/new`: start with the core user flow (input → predict → save).
+2. `frontend/components`: break down the UI into reusable building blocks.
+3. `frontend/hooks`: move logic into custom hooks (state + async calls).
+4. `frontend/lib/api.ts`: show the data-access layer and error handling.
+5. `frontend/types`: explain the shared data contracts for the frontend.
+6. `frontend/app/cases`: render the list view + empty/loading states.
+7. `frontend/app/cases/[id]`: dynamic route with full CRUD detail view.
+
+**Prettier setup (teach this flow)**
+1. Install: `npm i -D prettier` (run from `frontend/`).
+2. Config: `.prettierrc.json` sets the formatting rules.
+3. Ignore: `.prettierignore` skips build output and vendor folders.
+4. Format: `npm run format` (writes changes).
+5. Check: `npm run format:check` (CI-safe, no writes).
+
 **Where the API base URL comes from**
 1. `frontend/lib/constants.ts` defines `API_BASE`.
 2. `API_BASE` uses `NEXT_PUBLIC_API_BASE` if set.
@@ -69,3 +85,20 @@ Case Detail (`/cases/[id]`)
 4. Update: `updateCase` → `PUT /cases/:id`.
 5. Delete: `deleteCase` → `DELETE /cases/:id`.
 6. Predict: `predictCategory` → `POST /predict`.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- codex resume 019c3104-c6c6-72b3-83e5-a9e55858f538 -->

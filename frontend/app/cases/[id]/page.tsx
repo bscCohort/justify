@@ -1,5 +1,6 @@
 "use client";
 
+// Major concept to learn here: dynamic routes, route params, and detail views with CRUD.
 import { useParams } from "next/navigation";
 import CaseStatusForm from "@/components/CaseStatusForm";
 import { useCase } from "@/hooks/useCase";

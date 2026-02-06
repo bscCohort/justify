@@ -1,3 +1,4 @@
+// Major concept to learn here: list rendering, typed props, and linking to dynamic routes.
 import { Case } from "@/types/case";
 import { withBasePath } from "@/lib/routes";
 
